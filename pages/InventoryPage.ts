@@ -2,34 +2,61 @@ import { Page } from '@playwright/test';
 
 export class InventoryPage {
 
-    constructor(private page: Page) { }
+  constructor(private page: Page) {}
 
-    async resetAppState() {
+  async resetAppState() {
 
-        await this.page.locator('#react-burger-menu-btn').click();
+    await this.page.locator('#react-burger-menu-btn').click();
 
-        await this.page.locator('#reset_sidebar_link').click();
-    }
+    await this.page.locator('#reset_sidebar_link').click();
 
-    async addFirstThreeProducts() {
+    await this.page.locator('#react-burger-cross-btn').click();
+  }
 
-        const addButtons =
-            this.page.locator('.btn_inventory');
+  async addFirstThreeProducts() {
 
-        await addButtons.nth(0).click();
-        await addButtons.nth(1).click();
-        await addButtons.nth(2).click();
-    }
+    const addButtons =
+      this.page.locator('.btn_inventory');
 
-    async openCart() {
+    await addButtons.nth(0).click();
+    await addButtons.nth(1).click();
+    await addButtons.nth(2).click();
+  }
 
-        await this.page.locator('.shopping_cart_link').click();
-    }
+  async sortZtoA() {
 
-    async logout() {
+    await this.page
+      .locator('.product_sort_container')
+      .selectOption('za');
+  }
 
-        await this.page.locator('#react-burger-menu-btn').click();
+  async getFirstProductName() {
 
-        await this.page.locator('#logout_sidebar_link').click();
-    }
+    return await this.page
+      .locator('.inventory_item_name')
+      .first()
+      .textContent();
+  }
+
+  async addFirstProductToCart() {
+
+    await this.page
+      .locator('.btn_inventory')
+      .first()
+      .click();
+  }
+
+  async openCart() {
+
+    await this.page
+      .locator('.shopping_cart_link')
+      .click();
+  }
+
+  async logout() {
+
+    await this.page.locator('#react-burger-menu-btn').click();
+
+    await this.page.locator('#logout_sidebar_link').click();
+  }
 }
